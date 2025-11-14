@@ -8,9 +8,12 @@ $path = isset($url["path"]) ? $url["path"] : "/";
 
 //Import des classes
 use App\Controller\HomeController;
+use App\Controller\ErrorController;
 
 //Instance des controllers
 $homeController = new HomeController();
+$errorController = new ErrorController();
+
 //router
 switch ($path) {
     case '/':
@@ -26,6 +29,6 @@ switch ($path) {
         echo "inscription";
         break;
     default:
-        echo "error 404";
+        $errorController->error404();
         break;
 }
