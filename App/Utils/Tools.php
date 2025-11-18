@@ -16,4 +16,6 @@ class Tools
         $str = htmlspecialchars($str, ENT_NOQUOTES);
         return $str;
     }
+
+    
 }

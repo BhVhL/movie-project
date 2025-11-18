@@ -9,6 +9,7 @@ use App\Utils\Tools;
 class RegisterController
 {
     private Account $accountModel;
+
     
     public function __construct()
     {
@@ -30,7 +31,34 @@ class RegisterController
     public function addAccount()
     {
         //Verifier si le formulaire est submit
+        $data = [];
+        if (isset($_POST["submit"])) {
         //vérifier si les champs sont remplis
+            if (!empty($_POST["firstname"]["lastname"]["email"][`password`]["confirm-password"])) {
+                $_POST["firstname"]["lastname"]["email"][`password`]["confirm-password"] = Tools::sanitize($_POST["firstname"]["lastname"]["email"][`password`]["confirm-password"]);
+                $data["valide"] = "Tous les champs sont remplies";
+            } else {
+                $data["error"] = "Tous les champs ne sont pas remplies";
+            }
+            dump($_POST["id"]["firstname"]["lastname"]["email"][`password`]["confirm-password"]);
+        }
+        
+        if ($_POST["name"] === $_POST["name"]) {
+            return true;
+        } else {
+            $data["error"] = "Les mots de passe ne sont pas identiques";
+            return false;
+        }
+
+        $account = new Account($_POST["email"]);
+
+        if (!$this->accountModel->isAccountExistsByEmail($account->getEmail())) {
+            $this->accountModel->saveAccount($account);
+            $hash = password_hash($account($_POST["password"]), PASSWORD_DEFAULT);
+            echo "Le compte à bien été créer !\n";
+        } else {
+            echo "Un compte est déjà associé à cet email...";
+        }
             //Si ok on continu
             //Sinon on affiche un message d'erreur
         //vérifier si les 2 password sont identiques
