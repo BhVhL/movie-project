@@ -10,10 +10,11 @@
 <body>
     <?php include 'component/navbar.php'?>
     <main class="container"></h1>
-        <h1>Ajouter une catégorie</h1>
+        <h1>Se connecter</h1>
         <form action="" method="post">
-            <input type="text" name="name" placeholder="Saisir le nom de categorie">
-            <input type="submit" value="Ajouter" name="submit">
+            <input type="email" name="email" placeholder="Saisir votre email">
+            <input type="password" name="password" placeholder="Saisir le mot de passe">
+            <input type="submit" value="Connexion" name="submit">
         </form>
         <p><?= $data["error"] ?? "" ?></p>
         <p><?= $data["valid"] ?? "" ?></p>

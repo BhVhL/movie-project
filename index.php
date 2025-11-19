@@ -5,6 +5,7 @@ include 'env.php';
 
 //Demarrage de session
 session_start();
+
 //récupération de l'url
 $url = parse_url($_SERVER["REQUEST_URI"]);
 $path = isset($url["path"]) ? $url["path"] : "/";
@@ -33,10 +34,10 @@ switch ($path) {
         $categoryController->showAllCategories();
         break;
     case '/login':
-        echo "login";
+        $registerController->login();
         break;
     case '/logout':
-        echo "deconnexion";
+        $registerController->logout();
         break;
     case '/register':
         $registerController->addAccount();

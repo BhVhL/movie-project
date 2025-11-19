@@ -3,16 +3,17 @@
 namespace App\Controller;
 
 use App\Model\Category;
+use App\Repository\CategoryRepository;
 use App\Utils\Tools;
 
 class CategoryController
 {
-    private Category $categoryModel;
+    private CategoryRepository $categoryRepository;
 
     public function __construct(
     )
     {
-        $this->categoryModel = new Category("");
+        $this->categoryRepository = new CategoryRepository();
     }
 
     /**
@@ -40,9 +41,9 @@ class CategoryController
                 //Création d'un objet categorie
                 $category = new Category($_POST["name"]);
                 //Test si la categorie n'existe pas
-                if (!$this->categoryModel->isCategoryExistsByName($category->getName())) {
+                if (!$this->categoryRepository->isCategoryExistsByName($category->getName())) {
                     //Ajout en BDD
-                    $this->categoryModel->saveCategory($category);
+                    $this->categoryRepository->saveCategory($category);
                     //Message de validation
                     $data["valid"] = "La categorie a été ajouté en BDD";
                 } 
@@ -60,7 +61,7 @@ class CategoryController
 
     public function showAllCategories()
     {
-        $categories = $this->categoryModel->findAllCategories();
+        $categories = $this->categoryRepository->findAllCategories();
         //afficher le template avec render
         return $this->render("all_categories","Categories", $categories);
     }
