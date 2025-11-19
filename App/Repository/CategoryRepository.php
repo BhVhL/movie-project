@@ -24,7 +24,7 @@ class CategoryRepository
         try {
             //Requête SQL
             $sql = "INSERT INTO category(`name`) VALUE(?)";
-            //péparation
+            //préparation
             $req = $this->connect->prepare($sql);
             //Assignation du paramètre
             $req->bindValue(1, $category->getName(), \PDO::PARAM_STR);
