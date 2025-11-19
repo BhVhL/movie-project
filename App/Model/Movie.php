@@ -88,6 +88,6 @@ class Movie
     }
     public function addCategory(?array $categories): void
     {
-        $this->category->$categories;
+        $this->categories->$categories;
     }
 }
