@@ -28,6 +28,7 @@ class RegisterController
         include __DIR__ . "/../../template/template_" . $template . ".php";
     }
 
+    //Méthode pour ajouter un compte en BDD
     public function addAccount()
     {
         $data = [];
@@ -77,5 +78,51 @@ class RegisterController
             }
         }
         return $this->render("register_account", "Inscription", $data);
+    }
+
+    //Méthode pour se connecter
+    public function login()
+    {
+        $data = [];
+        //vérifier si le formulaire est soumis
+        if (isset($_POST["submit"])) {
+            //vérifier si les 2 champs sont remplis
+            if (!empty($_POST["email"]) && !empty($_POST["password"])) {
+                //nettoyer les informations (email + password)
+                $email = Tools::sanitize($_POST["email"]);
+                $password = Tools::sanitize($_POST["password"]);
+                //Récupérer le compte
+                $account = $this->accountRepository->findAccountByEmail($email);
+                //dd($account);
+                //vérifier si le compte existe
+                if ($account) {
+                    //vérifier si le password est valide
+                    if (password_verify($password, $account["password"])) {
+                        //établir la connexion (créer les super de SESSION)
+                        $_SESSION["firstname"] = $account["firstname"];
+                        $_SESSION["lastname"] = $account["lastname"];
+                        $_SESSION["email"] = $account["email"];
+                        $_SESSION["id"] = $account["id"];
+                        $_SESSION["connected"] = true;
+                        //Afficher un message pour indiquer que l'on est connecté
+                        $data["valid"] = $account["email"] . " est connecté";
+                    } 
+                    //Sinon on affiche un message d'erreur (erreur password)
+                    else {
+                        $data["error"] = "Les informations de connexion sont incorrectes";
+                    }    
+                }
+                //Sinon on affiche un message d'erreur (erreur du mail)
+                else {
+                    $data["error"] = "Les informations de connexion sont incorrectes";
+                }  
+            }
+            //Si les champs ne sont pas remplis
+            else {
+                $data["error"] = "Veuillez renseigner tous les champs du formulaire";
+            }
+        }
+            
+        return $this->render("login", "Connexion", $data);
     }
 }

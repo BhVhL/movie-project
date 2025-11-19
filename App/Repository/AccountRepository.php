@@ -40,7 +40,7 @@ class AccountRepository
         }
     }
 
-    public function isAccountExistsByEmail(string $email) :bool
+    public function isAccountExistsByEmail(string $email): bool
     {
         try {
             //Ecrire la requête
@@ -62,5 +62,25 @@ class AccountRepository
             return false;
         }
         return true;
-    } 
+    }
+
+    public function findAccountByEmail(string $email): array|bool
+    {
+        try {
+            //Ecrire la requête
+            $sql = "SELECT id, firstname, lastname, email, `password` FROM account WHERE email = ?";
+            //Préparer la requête
+            $req = $this->connect->prepare($sql);
+            //Assigner le paramètre
+            $req->bindParam(1, $email, \PDO::PARAM_STR);
+            //Exécuter la requête
+            $req->execute();
+            //Fetch le resultat
+            $account = $req->fetch(\PDO::FETCH_ASSOC);   
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        //Retour d'un tableau avec les informations du compte
+        return $account;
+    }
 }
