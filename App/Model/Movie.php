@@ -2,92 +2,90 @@
 
 namespace App\Model;
 
+use App\Model\Category;
+use DateTimeImmutable;
+
 class Movie
 {
-    //Attributs
+    //Attibuts
     private ?int $id;
     private ?string $title;
     private ?string $description;
-    private ?Date $publishAt;
+    private ?\DateTimeImmutable $publishAt;
     private ?int $duration;
-    private ?string $cover;
-    private ?array $categories;
+    private ?String $cover;
+    private array $categories;
 
-    //constructeur
+    //Constructeur
     public function __construct()
     {
-        $this->movies = [];
+        $this->categories = [];
     }
 
-
     //Getters et Setters
-    //ID
     public function getId(): int
     {
         return $this->id;
     }
-    public function setId(?int $id): void
+
+    public function setId(?int $id): void 
     {
         $this->id = $id;
     }
 
-    //TITLE
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
-    public function setTitle(?string $title): void
+
+    public function setTitle(?string $title): void 
     {
         $this->title = $title;
     }
 
-    //DESCRIPTION
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
-    public function setDescription(?string $description): void
+
+    public function setDescription(?string $description): void 
     {
         $this->description = $description;
     }
 
-    //PUBLISHAT
-    public function getPublishAt(): Date
+    public function getPublishAt(): ?\DateTimeImmutable
     {
         return $this->publishAt;
     }
-    public function setPublishAt(?Date $publishAt): void
+
+    public function setPublishAt(?\DateTimeImmutable $publishAt): void
     {
         $this->publishAt = $publishAt;
     }
 
-    //DURATION
-    public function getDuration(): int
-    {
-        return $this->duration;
-    }
-    public function setDuration(?int $duration): void
-    {
-        $this->duration = $duration;
-    }
-
-    //COVER
-    public function getCover(): string
+    public function getCover(): ?string
     {
         return $this->cover;
     }
+
     public function setCover(?string $cover): void
     {
         $this->cover = $cover;
     }
 
-    //CATEGORIES
     public function getCategories(): array
     {
         return $this->categories;
     }
-    public function addCategory(?array $categories): void
+
+    public function addCategory(Category $category): void
     {
-        $this->categories->$categories;
+        $this->categories[] = $category;
+    }
+
+    public function removeCategory(Category $category): void
+    {
+        unset($this->categories[array_search($category, $this->categories)]);
+        sort($this->categories);
     }
 }

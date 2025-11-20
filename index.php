@@ -15,12 +15,14 @@ use App\Controller\HomeController;
 use App\Controller\ErrorController;
 use App\Controller\CategoryController;
 use App\Controller\RegisterController;
+use App\Controller\MovieController;
 
 //Instance des controllers
 $homeController = new HomeController();
 $errorController = new ErrorController();
 $categoryController = new CategoryController();
 $registerController = new RegisterController();
+$movieController = new MovieController();
 
 //router deconnecté
 switch ($path) {
@@ -41,6 +43,9 @@ switch ($path) {
         break;
     case '/register':
         $registerController->addAccount();
+        break;
+    case '/movie/add':
+        $movieController->addMovie();
         break;
     default:
         $errorController->error404();
