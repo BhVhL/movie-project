@@ -35,6 +35,9 @@ switch ($path) {
     case '/categories':
         $categoryController->showAllCategories();
         break;
+    case '/movies':
+        $movieController->showAllMovie();
+        break;
     case '/login':
         $registerController->login();
         break;

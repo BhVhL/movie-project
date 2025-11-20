@@ -83,4 +83,10 @@ class MovieController
         
         return $this->render("add_movie", "Add Category", $data);
     }
+
+    //Méthode pour voir tous les films
+    public function showAllMovie()
+    {
+        
+    }
 }

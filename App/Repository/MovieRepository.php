@@ -52,4 +52,18 @@ class MovieRepository
             echo $e->getMessage();
         }
     }
+
+    //Méthode pour retrouver les films
+    public function findAllMovie()
+    {
+        try {
+            $sql = "SELECT mc.title, mc.description, mc.publish_at, c.name FROM movie_category mc INNER JOIN category c ON mc.id_category = c.id";
+            $req = $this->connect->prepare($sql);
+            $req->execute();
+            $allMovie = $req->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        return $allMovie;
+    }
 }
