@@ -13,6 +13,10 @@
     <?php include 'component/navbar.php'?>
     <main class="container">
         <h1>Bienvenue sur le site Movie project</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="file" name="fichier">
+            <input type="submit" value="Envoyer" name="submit">
+        </form>
     </main>
 </body>
 
