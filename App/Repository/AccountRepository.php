@@ -19,6 +19,12 @@ class AccountRepository
 
     
     //Méthode
+    /**
+     * Méthode qui ajoute un Compte(Account) en BDD
+     * @param Movie $movie Film a ajouter en BDD
+     * @return void
+     * @throws \Exception erreur SQL
+     */
     public function saveAccount(Account $account): void
     {
         try {
@@ -39,8 +45,13 @@ class AccountRepository
             echo $e->getMessage();
         }
     }
-
-    public function isAccountExistsByEmail(string $email): bool
+     /**
+     * Méthode qui vérifie si un Compte(Account) avec un email existe en BDD
+     * @param string $email email du Compte(Account)
+     * @return bool true si existe / false si n'existe pas
+     * @throws \Exception erreur SQL
+     */
+    public function isAccountExistsWithEmail(string $email): bool
     {
         try {
             //Ecrire la requête
@@ -63,12 +74,19 @@ class AccountRepository
         }
         return true;
     }
-
+    /**
+     * Méthode qui retourne  un Compte (Account) avec un email
+     * @param string $email email du Compte (Account)
+     * @return array|false $account array si existe / false si n'existe pas
+     * @throws \Exception erreur SQL
+     */
     public function findAccountByEmail(string $email): array|bool
     {
         try {
             //Ecrire la requête
-            $sql = "SELECT id, firstname, lastname, email, `password` FROM account WHERE email = ?";
+            $sql = "SELECT a.id, a.firstname, a.lastname, a.email, a.`password`, g.`name` FROM account AS a 
+            INNER JOIN `grant` AS g ON a.id_grant = g.id
+            WHERE email = ?";
             //Préparer la requête
             $req = $this->connect->prepare($sql);
             //Assigner le paramètre

@@ -11,6 +11,7 @@ class MovieRepository
     //Attributs
     private \PDO $connect;
 
+    //Constructeur
     public function __construct()
     {
         //Injection de dépendance
@@ -18,6 +19,12 @@ class MovieRepository
     }
 
     //Méthodes
+    /**
+     * Méthode qui ajoute un Film (Movie) en BDD
+     * @param Movie $movie Film a ajouter en BDD
+     * @return void
+     * @throws \Exception erreur SQL
+     */
     public function saveMovie(Movie $movie): void
     {
         try {
@@ -31,10 +38,27 @@ class MovieRepository
             $req->bindValue(3, $movie->getPublishAt()->format("Y-m-d"), \PDO::PARAM_STR);
             //Exécuter la requête
             $req->execute();
-            
             //Récupérer l'id du film ajouté
             $id = $this->connect->lastInsertId();
-            
+            //Setter l'id à l'objet Movie
+            $movie->setId($id);
+            //Ajout des categories (si elle existe)
+            $this->saveCategoryToMovie($movie);
+
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    /**
+     * Méthode qui assigne les Catégories (Category) à un Film en BDD
+     * @param Movie $movie Film contenant les Categories
+     * @return void
+     * @throws \Exception erreur SQL
+     */
+    public function saveCategoryToMovie(Movie $movie): void
+    {
+        try {
             //Boucle pour associer les categories à la table association
             foreach ($movie->getCategories() as $category) {
                 //Requête table association movie_category
@@ -42,28 +66,40 @@ class MovieRepository
                 //Préparer la requête
                 $reqAsso = $this->connect->prepare($sqlAsso);
                 //Assigner les paramètres
-                $reqAsso->bindParam(1, $id, \PDO::PARAM_INT);
+                //BindValue id Movie
+                $reqAsso->bindValue(1, $movie->getId(), \PDO::PARAM_INT);
+                //BindValue si objet Category(getter)
                 $reqAsso->bindValue(2, $category->getId(), \PDO::PARAM_INT);
                 //Exécuter la requête
                 $reqAsso->execute();
             }
-            
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
     }
 
-    //Méthode pour retrouver les films
-    public function findAllMovie()
+    /**
+     * Méthode qui retourne un tableau de tous les films (Movie)
+     * @return array<Movie> $movies
+     * @throws \Exception Erreur SQL
+     */
+    public function findAllMovies(): array
     {
         try {
-            $sql = "SELECT mc.title, mc.description, mc.publish_at, c.name FROM movie_category mc INNER JOIN category c ON mc.id_category = c.id";
+            //Requête SQL
+            $sql = "SELECT m.id, m.title, m.`description`, m.publish_at, 
+            GROUP_CONCAT(c.`name`) AS categories FROM movie AS m 
+            LEFT JOIN movie_category AS mv ON m.id = mv.id_movie 
+            LEFT JOIN category AS c ON mv.id_category = c.id GROUP BY m.id";
+            //Préparer la requête SQL
             $req = $this->connect->prepare($sql);
+            //Exécuter la requête
             $req->execute();
-            $allMovie = $req->fetchAll(\PDO::FETCH_ASSOC);
+            //Fetch de tous les enregistrements
+            $movies = $req->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
-        return $allMovie;
+        return $movies;
     }
 }

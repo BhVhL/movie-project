@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Model\Category;
 use App\Repository\CategoryRepository;
 use App\Utils\Tools;
+use App\Controller\AbstractController;
 
-class CategoryController
+class CategoryController extends AbstractController
 {
     private CategoryRepository $categoryRepository;
 
@@ -16,19 +17,12 @@ class CategoryController
         $this->categoryRepository = new CategoryRepository();
     }
 
+    //Méthodes
     /**
-     * Méthode pour rendre une vue avec un template
-     * @param string $template Le nom du template à inclure
-     * @param string|null $title Le titre de la page
-     * @param array $data Les données à passer au template
-     * @return void
+     * Méthode pour ajouter une Catégorie (Category)
+     * @return mixed Retourne le template
      */
-    public function render(string $template, ?string $title, array $data = []): void
-    {
-        include __DIR__ . "/../../template/template_" . $template . ".php";
-    }
-
-    public function addCategory()
+    public function addCategory(): mixed
     {
         $data = [];
         //test si le formulaire
@@ -41,7 +35,7 @@ class CategoryController
                 //Création d'un objet categorie
                 $category = new Category($_POST["name"]);
                 //Test si la categorie n'existe pas
-                if (!$this->categoryRepository->isCategoryExistsByName($category->getName())) {
+                if (!$this->categoryRepository->isCategoryExistsWithName($category->getName())) {
                     //Ajout en BDD
                     $this->categoryRepository->saveCategory($category);
                     //Message de validation
@@ -59,7 +53,11 @@ class CategoryController
         return $this->render("add_category","Add category", $data);
     }
 
-    public function showAllCategories()
+    /**
+     * Méthode qui affiche la liste des Catégories (Category)
+     * @return mixed Retourne le template
+     */
+    public function showAllCategories(): mixed
     {
         $categories = $this->categoryRepository->findAllCategories();
         //afficher le template avec render
