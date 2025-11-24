@@ -29,13 +29,14 @@ class MovieRepository
     {
         try {
             //Ecrire la requête
-            $sql = "INSERT INTO movie(title, `description`, publish_at)VALUE(?,?,?)";
+            $sql = "INSERT INTO movie(title, `description`, publish_at, cover)VALUE(?,?,?,?)";
             //Préparer la requête
             $req = $this->connect->prepare($sql);
             //Assigner les paramètres
             $req->bindValue(1, $movie->getTitle(), \PDO::PARAM_STR);
             $req->bindValue(2, $movie->getDescription(), \PDO::PARAM_STR);
             $req->bindValue(3, $movie->getPublishAt()->format("Y-m-d"), \PDO::PARAM_STR);
+            $req->bindValue(4, $movie->getCover(), \PDO::PARAM_STR);
             //Exécuter la requête
             $req->execute();
             //Récupérer l'id du film ajouté

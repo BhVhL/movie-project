@@ -26,6 +26,9 @@
                 <label>Saisir la date de sortie
                     <input type="datetime-local" name="publish_at" aria-label="Choix de la date de sortie">
                 </label>
+                <label>Importer une image pour la couverture du filemtime
+                        <input type="file" name="cover">
+                </label>
                 <select aria-label="Sélectionner les categories..." multiple size="6" name="categories[]">
                     <option disabled>
                         Sélectionner les categories...
