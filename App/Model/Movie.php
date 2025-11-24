@@ -7,16 +7,15 @@ use Mithridatem\Validation\Attributes\NotBlank;
 use Mithridatem\Validation\Attributes\Length;
 use Mithridatem\Validation\Attributes\Positive;
 
-
 class Movie
 {
     //Attibuts
     private ?int $id;
     #[NotBlank]
-    #[Length(min: 2, max: 50)]
+    #[Length(min:2, max:50)]
     private ?string $title;
     #[NotBlank]
-    #[Length(min: 2, max: 50)]
+    #[Length(min:5, max:255)]
     private ?string $description;
     private ?\DateTimeImmutable $publishAt;
     #[NotBlank]

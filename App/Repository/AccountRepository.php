@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Database\Mysql;
 use App\Model\Account;
+use App\Model\Movie;
 
 class AccountRepository
 {
@@ -41,8 +42,8 @@ class AccountRepository
             $req->bindValue(5, $account->getGrant()->getId(), \PDO::PARAM_INT);
             //Exécuter la requête
             $req->execute();
-        } catch (\Exception $e) {
-            echo $e->getMessage();
+        } catch (\PDOException $e) {
+            throw new \PDOException("Erreur d'enregistrement en BDD");
         }
     }
      /**
@@ -100,5 +101,18 @@ class AccountRepository
         }
         //Retour d'un tableau avec les informations du compte
         return $account;
+    }
+
+    public function saveMovieToAccount(Movie $movie, int $id)
+    {
+        try {
+            $sql = "INSERT INTO account_movie(id_movie, id_account) VALUE (?,?)";
+            $req = $this->connect->prepare($sql);
+            $req->bindValue(1, $movie->getId(), \PDO::PARAM_INT);
+            $req->bindParam(2, $id, \PDO::PARAM_INT);
+            $req->execute();
+        } catch(\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }
