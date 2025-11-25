@@ -33,6 +33,9 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"] == true) {
             case '/':
                 $homeController->index();
                 break;
+            case '/account/movie':
+                $registerController->addMovieToAccount();
+                break;
             case '/logout':
                 $registerController->logout();
                 break;
@@ -61,6 +64,9 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"] == true) {
                 break;
             case '/logout':
                 $registerController->logout();
+                break;
+            case '/account/movie':
+                $registerController->addMovieToAccount();
                 break;
             case '/movie/add':
                 $movieController->addMovie();

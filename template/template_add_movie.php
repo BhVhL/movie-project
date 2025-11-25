@@ -26,14 +26,9 @@
                 <label>Saisir la date de sortie
                     <input type="datetime-local" name="publish_at" aria-label="Choix de la date de sortie">
                 </label>
-<<<<<<< HEAD
-                <label>Importer une image pour la couverture du filemtime
-                        <input type="file" name="cover">
-=======
                 <label>Saisir la durée du film en minutes
                     <input type="text" name="duration" placeholder="Saisir la durée du film..."
                         aria-label="Durée du film">
->>>>>>> 3a2e4f083a8dd7227ebdaf5ee81c6faeeba04910
                 </label>
                 <select aria-label="Sélectionner les categories..." multiple size="6" name="categories[]">
                     <option disabled>

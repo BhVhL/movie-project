@@ -9,8 +9,18 @@
     <title><?= $title ?></title>
 </head>
 <body>
-    <form action="" method="post" >
-        
-    </form>
+    <main>
+        <form action="" method="post">
+            <select name="movie">
+                <option>
+                    Liste des films...
+                </option>
+                <?php foreach ($data["movies"] as $movie) :?>
+                    <option value="<?= $movie["id"] ?>"><?= $movie["title"] ?></option>
+                <?php endforeach ?>
+            </select>
+            <input type="submit" name="submit" value="Ajouter">
+        </form>
+    </main>
 </body>
 </html>

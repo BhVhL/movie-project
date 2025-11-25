@@ -8,6 +8,7 @@ use App\Database\Mysql;
 use App\Repository\AccountRepository;
 use App\Utils\Tools;
 use App\Controller\AbstractController;
+use App\Repository\MovieRepository;
 use Mithridatem\Validation\Validator;
 use Mithridatem\Validation\Exception\ValidationException;
 
@@ -16,6 +17,8 @@ class RegisterController extends AbstractController
     //Attributs
     private AccountRepository $accountRepository;
     private Validator $validator;
+    private MovieRepository $movieRepository;
+    private Mysql $sql;
 
     //Constructeur
     public function __construct()
@@ -23,6 +26,7 @@ class RegisterController extends AbstractController
         //Injection de dépendance
         $this->accountRepository = new AccountRepository();
         $this->validator = new Validator();
+        $this->movieRepository = new MovieRepository();
     }
 
     //Méthodes
@@ -145,4 +149,27 @@ class RegisterController extends AbstractController
         session_destroy();
         header('Location: /');
     }
+
+    public function addMovieToAccount()
+    {
+        $data = [];
+        if(isset($_POST["submit"])) {
+            try {
+                $account = $this->accountRepository->findAccountByEmail($email);
+                $_SESSION["id"] = $account["id"];
+                $_SESSION["connected"] = true;
+                $sql = "SELECT am.id_movie FROM account_movie am";
+                $req = $this->connect->prepare($sql);
+                $req->execute();
+                $movies = $req->fetchAll(\PDO::FETCH_ASSOC);
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+        $movies = $this->movieRepository->findAllMovies();
+        $data["movies"] = $movies;
+        return $this->render("connecté", "film", $data);
+    }
+
+
 }
