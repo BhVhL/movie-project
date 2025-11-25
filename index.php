@@ -45,17 +45,23 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"] == true) {
             case '/movies':
                 $movieController->showAllMovies();
                 break;
+            case '/account/movie':
+                $registerController->addMovieToAccount();
+                break;
             case '/category/add':
                 $categoryController->addCategory();
                 break;
             case '/categories':
                 $categoryController->showAllCategories();
                 break;
+            case '/email':
+                $homeController->testEmail();
+                break;
             default:
                 $errorController->error404();
                 break;
         }
-    } 
+    }
     //router connecté user
     else {
         switch ($path) {
@@ -74,6 +80,12 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"] == true) {
             case '/movies':
                 $movieController->showAllMovies();
                 break;
+            case '/account/movie':
+                $registerController->addMovieToAccount();
+                break;
+            case '/email':
+                $homeController->testEmail();
+                break;
             default:
                 $errorController->error404();
                 break;
@@ -91,6 +103,9 @@ else {
             break;
         case '/register':
             $registerController->addAccount();
+            break;
+        case '/email':
+            $homeController->testEmail();
             break;
         default:
             $errorController->error404();

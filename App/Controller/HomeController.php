@@ -4,9 +4,17 @@ namespace App\Controller;
 
 use App\Controller\AbstractController;
 use App\Utils\Tools;
+use App\Service\EmailService;
 
 class HomeController extends AbstractController
 {
+    //Attribut
+    private EmailService $emailService;
+
+    public function __construct()
+    {
+        $this->emailService = new EmailService();
+    }
 
     /**
      * Méthode pour afficher la page d'accueil
@@ -28,5 +36,18 @@ class HomeController extends AbstractController
             }
         }
         return $this->render("home","accueil", $data);
+    }
+    
+    /**
+     * Méthode Pour envoyer un email de test
+     * @return mixed Retourne le template
+     */
+    public function testEmail(): mixed
+    {   
+        //Corps du message (email)
+        $body = "<p>Test email</p>";
+        //Appel de la méthode sendEmail avec le destinataire, objet et le message
+        $this->emailService->sendEmail("mail.test@test.fr", "test envoi email", $body);
+        return $this->render("test_email", "Test email");
     }
 }

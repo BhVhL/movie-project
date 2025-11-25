@@ -27,3 +27,11 @@ const DB_NAME = "movies"; //Nom de la BDD
 ```sh
 php -S 127.0.0.1:8000
 ```
+### 5 Configuration envoi email 
+Editer le fichier **env.php** avec vos valeurs
+```php
+const SMTP_SERVER = "smtp.email.com";
+const SMTP_PORT = 485;
+const SMTP_USERNAME = "";
+const SMTP_PASSWORD  = "";
+```

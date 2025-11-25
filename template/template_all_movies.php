@@ -6,6 +6,7 @@
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+        <link rel="stylesheet" href="public/style/main.css">
     <title><?= $title ?></title>
 </head>
 
@@ -18,7 +19,7 @@
             <article>
                 <header><h2><?= $movie["title"] ?></h2></header>
                 <p><?= $movie["description"] ?></p> 
-                <p><?=  $movie["publish_at"]?></p>
+                <p><?= $movie["publish_at"] ?></p>
                 <?php
                     //transformer la chaine en tableau 
                     $categories = explode(",", $movie["categories"]);
